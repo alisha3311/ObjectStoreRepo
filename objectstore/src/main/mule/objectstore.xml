@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="62de54c1-a94f-4858-b50c-d247d5275779" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="400006ba-e5b9-4a1f-9804-82acc43e9c12" />
+	<os:object-store name="custom_os" doc:name="Object store" doc:id="0f9bd683-1536-42b9-9b20-ab41deb900b1" maxEntries="20" entryTtl="10" entryTtlUnit="MINUTES" expirationInterval="5" config-ref="ObjectStore_Config" />
+	<flow name="objectstoreFlow" doc:id="27501e88-44fb-4be2-9ae1-ef9051f13ccb" >
+		<http:listener doc:name="Listener" doc:id="c4343bb8-d1de-4db8-9bd7-df3fa04f8444" config-ref="HTTP_Listener_config" path="/os"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0a7198a0-e585-4ffe-859d-aa35a0b2457f" message="application started"/>
+		<os:store doc:name="Store" doc:id="d5809405-2201-4d8b-bb2a-b48c9e4f1b57" key="customKey" objectStore="custom_os">
+			<os:value ><![CDATA[customValue]]></os:value>
+		</os:store>
+		<os:retrieve doc:name="Retrieve" doc:id="2a78608f-9c32-4035-a444-2fe2af79935b" key="customKey" objectStore="custom_os">
+			<os:default-value ><![CDATA[anyValue]]></os:default-value>
+		</os:retrieve>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="b2116127-b98f-4034-a29b-dfbddef96347" objectStore="custom_os"/>
+		<os:retrieve-all-keys doc:name="Retrieve all keys" doc:id="6b2999f8-c86d-4eae-9b29-ad0dd744871b" objectStore="custom_os"/>
+		<os:contains doc:name="Contains" doc:id="d5454693-17af-4777-ad8c-d0f4c9805380" key="customKey" objectStore="custom_os"/>
+		<os:remove doc:name="Remove" doc:id="09df8819-0be5-4317-86e4-6192c4cd20a7" key="customKey" objectStore="custom_os"/>
+		<ee:transform doc:name="Transform Message" doc:id="a479127a-09a2-47f5-8b4e-7d554fbaed44" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"alisha"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
