@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<os:object-store name="custom_os" doc:name="Object store" doc:id="0f9bd683-1536-42b9-9b20-ab41deb900b1" maxEntries="20" entryTtl="10" entryTtlUnit="MINUTES" expirationInterval="5" config-ref="ObjectStore_Config" />
 	<flow name="objectstoreFlow" doc:id="27501e88-44fb-4be2-9ae1-ef9051f13ccb" >
 		<http:listener doc:name="Listener" doc:id="c4343bb8-d1de-4db8-9bd7-df3fa04f8444" config-ref="HTTP_Listener_config" path="/os"/>
-		<logger level="INFO" doc:name="INFO LOGGER" doc:id="0a7198a0-e585-4ffe-859d-aa35a0b2457f" message="application started logger"/>
+		<logger level="INFO" doc:name="INFO LOGGER" doc:id="0a7198a0-e585-4ffe-859d-aa35a0b2457f" message="application started loggerrrrrrrrrrrrrr"/>
 		<os:store doc:name="Store" doc:id="d5809405-2201-4d8b-bb2a-b48c9e4f1b57" key="customKey" objectStore="custom_os">
 			<os:value ><![CDATA[customValue]]></os:value>
 		</os:store>
